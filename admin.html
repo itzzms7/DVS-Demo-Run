@@ -1,231 +1,84 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>E-Voting System</title>
-
+<title>Admin Login — DVS</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="{% static 'default.css' %}" rel="stylesheet">
-
-<script>
-function validate(){
-	var x=document.forms["f1"]["username"].value;
-	var y=document.forms["f1"]["password"].value;
-	if(x == null || x==""){
-		window.alert("Username must be enter");
-		document.f1.t1.focus();
-		return false;
-	}
-	if(y == null || y==""){
-		window.alert("Finger Password must be uploaded");
-		document.f1.t2.focus();
-		return false;
-	}
-	return true;
-}
-</script>
-
-<style>
-
-/* THEME */
-:root {
-    --bg: #FFF5F7;
-    --card: #ffffff;
-    --border: #cfc4c6;
-    --primary: #181516;
-    --secondary: #94445d;
-    --text: #2D292A;
-    --muted: #7e7577;
-}
-
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Manrope", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-}
-
-/* NAVBAR */
-#menu {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 18px;
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-}
-
-#menu ul {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-}
-
-#menu a {
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 14px;
-    position: relative;
-    transition: 0.3s;
-}
-
-#menu a:hover {
-    color: var(--primary);
-}
-
-/* HEADER */
-#logo {
-    text-align: center;
-    padding: 40px 10px 10px;
-}
-
-#logo h1 {
-    font-size: 28px;
-    font-weight: 700;
-    background: linear-gradient(90deg, #181516, #94445d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* MAIN CARD */
-.entry {
-    max-width: 420px;
-    margin: 40px auto;
-    padding: 35px;
-    border-radius: 18px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    box-shadow: 0 15px 40px rgba(45,41,42,0.08);
-}
-
-/* TITLE */
-.entry center {
-    display: block;
-    margin-bottom: 10px;
-    color: var(--muted);
-}
-
-/* FORM */
-table.notepad {
-    width: 100%;
-}
-
-table.notepad th {
-    font-size: 13px;
-    color: var(--muted);
-    padding-bottom: 5px;
-}
-
-table.notepad td {
-    padding-bottom: 15px;
-}
-
-/* INPUT */
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    outline: none;
-    transition: 0.2s;
-}
-
-.form-control:focus {
-    border-color: var(--secondary);
-}
-
-/* BUTTON */
-input[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background: var(--primary);
-    color: white;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-input[type="submit"]:hover {
-    background: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(148,68,93,0.2);
-}
-
-</style>
-
+<link href="css/style.css" rel="stylesheet">
 </head>
-
 <body>
 
-<div id="wrapper">
+<!-- NAVBAR -->
+<div class="navbar">
+    <a href="index.html" class="logo"><span class="logo-mark">DV</span>DVS</a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="vote.html">Cast Your Vote</a>
+        <a href="admin-login.html" class="active">Admin Login</a>
+        <span class="nav-tag">Demo Mode</span>
+    </div>
+</div>
 
-    <!-- HEADER -->
-    <div id="header">
-        <div id="logo">
-            <h1>E-Voting System Using Ethereum Blockchain</h1>
+<main>
+    <!-- HERO -->
+    <section class="hero">
+        <span class="eyebrow">Admin Access</span>
+        <h1>Admin login</h1>
+        <p>Sign in to view live results and manage the demo session.</p>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="card card-narrow">
+        <div class="form-container">
+            <h3 class="form-title">Admin Login</h3>
+            <p class="form-subtitle">Demo credentials: <strong>admin</strong> / <strong>admin123</strong></p>
+
+            <div class="alert alert-error" id="errorAlert"></div>
+
+            <form id="adminForm" novalidate>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="inp" placeholder="admin" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="inp" placeholder="••••••••" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Login</button>
+                </div>
+            </form>
         </div>
     </div>
+</main>
 
-    <!-- NAV -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="admin.html">Admin Login</a></li>
-            <li><a href="vote.html">Cast Your Vote</a></li>
-        </ul>
-    </div>
-
-    <!-- FORM -->
-    <div class="entry">
-
-        <center>{{ data }}</center>
-
-        <center><b>Admin Login Screen</b></center>
-
-        <form name="f1" method="post" action="{% url 'AdminLogin' %}" onsubmit="return validate()">
-            {% csrf_token %}
-
-            <table class="notepad">
-
-                <tr>
-                    <th align="left">Username</th>
-                    <td>
-                        <input type="text" name="username" class="form-control">
-                    </td>
-                </tr>
-
-                <tr>
-                    <th align="left">Password</th>
-                    <td>
-                        <input type="password" name="password" class="form-control">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="submit" value="Login">
-                    </td>
-                </tr>
-
-            </table>
-
-        </form>
-
-    </div>
-
+<!-- FOOTER -->
+<div class="footer">
+    © 2026 DVS — Digital Voting System
+    <span class="demo-note">This is a demo build. All votes and identities are simulated and stored only in your browser.</span>
 </div>
+
+<script src="js/app.js"></script>
+<script>
+    const form = document.getElementById('adminForm');
+    const errorAlert = document.getElementById('errorAlert');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (DVS.adminLogin(username, password)) {
+            window.location.href = 'results.html';
+        } else {
+            errorAlert.textContent = 'Invalid admin credentials. Try admin / admin123.';
+            errorAlert.classList.add('show');
+        }
+    });
+</script>
 
 </body>
 </html>
