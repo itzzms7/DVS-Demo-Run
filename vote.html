@@ -1,171 +1,92 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>E-Voting System</title>
-
+<title>Cast Your Vote — DVS</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="{% static 'default.css' %}" rel="stylesheet">
-
-<style>
-
-/* THEME */
-:root {
-    --bg: #FFF5F7;
-    --card: #ffffff;
-    --border: #cfc4c6;
-    --primary: #181516;
-    --secondary: #94445d;
-    --text: #2D292A;
-    --muted: #7e7577;
-}
-
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Manrope", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-}
-
-/* NAVBAR */
-#menu {
-    display: flex;
-    justify-content: center;
-    padding: 18px;
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-}
-
-#menu ul {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-}
-
-#menu a {
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-#menu a:hover {
-    color: var(--primary);
-}
-
-/* HEADER */
-#logo {
-    text-align: center;
-    padding: 40px 10px 10px;
-}
-
-#logo h1 {
-    font-size: 32px;
-    font-weight: 700;
-    background: linear-gradient(90deg, #181516, #94445d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* MAIN CARD */
-#page {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 30px;
-}
-
-.post {
-    background: var(--card);
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    box-shadow: 0 15px 40px rgba(45,41,42,0.08);
-    padding: 30px;
-}
-
-/* TITLE */
-.title h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* IMAGE */
-.post img {
-    width: 100%;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-
-/* CONTENT */
-.entry {
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    #logo h1 {
-        font-size: 24px;
-    }
-}
-
-</style>
-
+<link href="css/style.css" rel="stylesheet">
 </head>
-
 <body>
 
-<div id="wrapper">
-
-    <!-- HEADER -->
-    <div id="header">
-        <div id="logo">
-            <h1>E-Voting System Using Ethereum Blockchain</h1>
-        </div>
+<!-- NAVBAR -->
+<div class="navbar">
+    <a href="index.html" class="logo"><span class="logo-mark">DV</span>DVS</a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="vote.html" class="active">Cast Your Vote</a>
+        <a href="admin-login.html">Admin Login</a>
+        <span class="nav-tag">Demo Mode</span>
     </div>
-
-    <!-- NAV (STATIC LINKS) -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="admin.html">Admin Login</a></li>
-            <li><a href="vote.html">Cast Your Vote</a></li>
-        </ul>
-    </div>
-
-    <!-- MAIN -->
-    <div id="page">
-        <div id="content">
-
-            <div class="post">
-
-                <div class="title">
-                    <h2>E-Voting System Using Ethereum Blockchain</h2>
-                </div>
-
-                <div class="entry">
-
-                    <img src="{% static 'images/images.jpg' %}" alt="Banner">
-
-                    {{data|safe}}
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
 </div>
+
+<main>
+    <!-- HERO -->
+    <section class="hero">
+        <span class="eyebrow">Step 1 of 3</span>
+        <h1>Choose your candidate</h1>
+        <p>Select one candidate below, then continue to verify your identity.</p>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="card">
+        <div class="section-heading">
+            <h3>Candidates</h3>
+        </div>
+
+        <div class="candidate-grid" id="candidateGrid"></div>
+
+        <div class="card-narrow" style="margin: 26px auto 0;">
+            <button class="btn-primary" id="continueBtn" disabled>Continue to Voter Login</button>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<div class="footer">
+    © 2026 DVS — Digital Voting System
+    <span class="demo-note">This is a demo build. All votes and identities are simulated and stored only in your browser.</span>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+    const grid = document.getElementById('candidateGrid');
+    const continueBtn = document.getElementById('continueBtn');
+    let selectedId = sessionStorage.getItem('dvs_selected_candidate') || null;
+
+    function render() {
+        grid.innerHTML = '';
+        DVS.getCandidates().forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'candidate-card' + (c.id === selectedId ? ' selected' : '');
+            card.innerHTML = `
+                <div class="avatar" style="background:${c.color}">${c.initials}</div>
+                <div class="candidate-name">${c.name}</div>
+                <div class="candidate-party">${c.party}</div>
+                <button class="btn-select ${c.id === selectedId ? 'is-selected' : ''}" data-id="${c.id}">
+                    ${c.id === selectedId ? 'Selected' : 'Select'}
+                </button>
+            `;
+            grid.appendChild(card);
+        });
+        continueBtn.disabled = !selectedId;
+    }
+
+    grid.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-select');
+        if (!btn) return;
+        selectedId = btn.dataset.id;
+        sessionStorage.setItem('dvs_selected_candidate', selectedId);
+        render();
+    });
+
+    continueBtn.addEventListener('click', () => {
+        if (!selectedId) return;
+        window.location.href = 'voter-login.html';
+    });
+
+    render();
+</script>
 
 </body>
 </html>
